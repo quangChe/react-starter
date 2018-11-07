@@ -10,11 +10,8 @@ class App extends Component {
     {name: 'Jordan', age: 24, stat: 'I hates tiramisu!'},
     {name: 'Robert', age: 28, stat: 'I hates tiramisu!'},
     {name: 'Quang', age: 26, stat: 'I hates tiramisu!'},
-  ]
-
+  ];
   state = this.allPeople[this.counter];
-
-  
 
   switchPerson = () => {
     this.counter ++;
@@ -22,16 +19,32 @@ class App extends Component {
     this.setState(this.allPeople[this.counter]);
   }
 
+  nameChange = (event) => {
+    const person = this.allPeople[this.counter];
+    person.name = event.target.value;
+    this.setState(person);
+  }
+
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px'
+    };
+
     return (
       <div className="App">
         <h1>Hello!</h1>
         <h2>Who are you?</h2>
-        {/* <button onClick={this.switchPerson}>Switch Person</button> */}
+        <button 
+          style={style}
+          onClick={this.switchPerson}>Switch Person</button>
         <Person 
           name={this.state.name} 
           age={this.state.age}
-          click={this.switchPerson}>{this.state.stat}</Person>
+          click={this.switchPerson}
+          input={this.nameChange}>{this.state.stat}</Person>
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
