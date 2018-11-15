@@ -5,7 +5,7 @@ const person = (props) => {
   return (
     <div className="Person">
       <p>I'm {props.name}, a {props.age} year-old boy.</p>
-      <p>{props.children}</p>
+      {props.children}
       <input 
         className="input" 
         type="text" 

@@ -46,43 +46,48 @@ class App extends Component {
   }
 
   render() {
-    
-    const style1 = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid green',
-      padding: '8px',
-      color: 'green'
+    const styles = {
+      btnOne: {
+        backgroundColor: 'white',
+        font: 'inherit',
+        border: '1px solid green',
+        padding: '8px',
+        color: 'green'
+      },
+      btnTwo: {
+        marginTop: '20vh',
+        backgroundColor: 'white',
+        font: 'inherit',
+        border: '1px solid red',
+        padding: '8px',
+        color: 'red'
+      }
     };
+
+    let peopleBlock;
     
-    const style2 = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid red',
-      padding: '8px',
-      color: 'red'
-    };
+    if (this.state.showPeople) {
+      peopleBlock = (
+        <div>
+          <button 
+            style={styles.btnTwo}
+            onClick={this.switchName.bind(this, 'Blank')}>Remove This Person</button>
+          <Person 
+            name={this.state.people.name} 
+            age={this.state.people.age}
+            click={this.switchPerson}
+            input={this.nameChange}><p>{this.state.people.stat}</p></Person>
+        </div> 
+      );
+    }
 
     return (
       <div className="App">
-        <h1>Hello!</h1>
-        <h2>Who are you?</h2>
         <button 
           className="toggle-btn"
-          style={style1}
+          style={styles.btnOne}
           onClick={this.togglePersonHandler}>Show People</button>
-        { this.state.showPeople ? 
-          <div>
-            <Person 
-              name={this.state.people.name} 
-              age={this.state.people.age}
-              click={this.switchPerson}
-              input={this.nameChange}>{this.state.people.stat}</Person>
-            <button 
-              style={style2}
-              onClick={this.switchName.bind(this, 'Blank')}>Remove This Person</button>
-          </div> : null          
-        }
+        {peopleBlock}
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
