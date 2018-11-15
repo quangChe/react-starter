@@ -12,7 +12,7 @@ const person = (props) => {
         onChange={props.input} value={props.name}/>
       <button 
         className="button"
-        onClick={props.click}>Switch Person</button>
+        onClick={props.click}>Next Person</button>
     </div>
   );
 }
