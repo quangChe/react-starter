@@ -1,6 +1,6 @@
 .Person {
   font-size: 30px;
-  margin: 15px auto 25vh auto;
+  margin: 15px auto 30px auto;
 }
 
 p:nth-of-type(1) {

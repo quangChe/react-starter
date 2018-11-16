@@ -3,6 +3,15 @@
   padding-top: 20px;
 }
 
+.names-list {
+  list-style: none;
+  line-height: 1.5;
+}
+
+.names-list>li {
+  color: rgb(223, 184, 112);
+}
+
 h1 {
   color: blue;
 }

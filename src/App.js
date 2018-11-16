@@ -12,21 +12,27 @@ class App extends Component {
     {name: 'Quang', age: 26, stat: 'I hates tiramisu!'},
   ];
   state = {
-    people: this.allPeople[this.counter],
-    showPeople: false
+    person: this.allPeople[this.counter],
+    showPeople: false,
+    names: [],
+    showNames: false
   };
 
-  switchName = (name) => {
+  removeName = (name) => {
     const person = this.allPeople[this.counter];
     person.name = name;
-    this.setState(person);
+    const allNames = this.allPeople.reduce((all, person) => {
+      all.push(person.name);
+      return all;
+    }, []);
+    this.setState({person: person, names: allNames});
   }
 
   switchPerson = () => {
     this.counter ++;
     this.counter = (this.counter > 4) ? 0 : this.counter;
     const newPerson = {
-      people: this.allPeople[this.counter]
+      person: this.allPeople[this.counter]
     }
     this.setState(newPerson);
   }
@@ -34,15 +40,31 @@ class App extends Component {
   nameChange = (event) => {
     const person = this.allPeople[this.counter];
     person.name = event.target.value;
-    this.setState(person);
+    const allNames = this.allPeople.reduce((all, person) => {
+      all.push(person.name);
+      return all;
+    }, []);
+    this.setState({person: person, names: allNames});
   }
 
   togglePersonHandler = () => {
     const doesShow = !this.state.showPeople;
     const msg = (doesShow) ? 'Hide People' : 'Show People';
-    const toggleBtn = document.getElementsByClassName('toggle-btn')[0];
+    const toggleBtn = document.getElementsByClassName('toggle-btn1')[0];
     toggleBtn.textContent = msg;
     this.setState({showPeople: doesShow});
+  }
+
+  viewAllNames = () => {
+    const doesShow = !this.state.showNames;
+    const msg = (doesShow) ? 'Hide Names' : 'Show Names';
+    const toggleBtn = document.getElementsByClassName('toggle-btn2')[0];
+    toggleBtn.textContent = msg; 
+    const allNames = this.allPeople.reduce((all, person) => {
+      all.push(person.name);
+      return all;
+    }, []);
+    this.setState({names: allNames, showNames: doesShow})
   }
 
   render() {
@@ -65,29 +87,46 @@ class App extends Component {
     };
 
     let peopleBlock;
+    let namesList;
     
     if (this.state.showPeople) {
       peopleBlock = (
         <div>
           <button 
             style={styles.btnTwo}
-            onClick={this.switchName.bind(this, 'Blank')}>Remove This Person</button>
+            onClick={this.removeName.bind(this, 'Blank')}>Remove This Person</button>
           <Person 
-            name={this.state.people.name} 
-            age={this.state.people.age}
+            name={this.state.person.name} 
+            age={this.state.person.age}
             click={this.switchPerson}
-            input={this.nameChange}><p>{this.state.people.stat}</p></Person>
+            input={this.nameChange}><p>{this.state.person.stat}</p></Person>
         </div> 
       );
+    } 
+
+    if (this.state.showNames) {
+      namesList = (
+        <div className="names-list">
+          <h2>All people currently:</h2>
+          {this.state.names.map(name => {
+            return <li>{name}</li>
+          })}
+        </div>
+      )
     }
 
     return (
       <div className="App">
         <button 
-          className="toggle-btn"
+          className="toggle-btn1"
           style={styles.btnOne}
           onClick={this.togglePersonHandler}>Show People</button>
+        <button 
+          className="toggle-btn2"
+          style={styles.btnOne}
+          onClick={this.viewAllNames}>List Names</button>
         {peopleBlock}
+        {namesList}
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
