@@ -27,10 +27,10 @@ class App extends Component {
   }
 
   removeName = (name) => {
-    const person = {person: this.allPeople[this.counter]};
+    const person = this.allPeople[this.counter];
     person.name = name;
     this.updateNames();
-    this.setState(person);
+    this.setState({person: person});
   }
 
   firePerson = (i) => {
@@ -49,10 +49,10 @@ class App extends Component {
   }
 
   nameChange = (event) => {
-    const person = {person: this.allPeople[this.counter]};
+    const person = this.allPeople[this.counter];
     person.name = event.target.value;
     this.updateNames();
-    this.setState(person);
+    this.setState({person: person});
   }
 
   togglePersonHandler = () => {
@@ -74,12 +74,21 @@ class App extends Component {
 
   render() {
     const styles = {
-      btnOne: {
-        backgroundColor: 'white',
+      btnOneA: {
+        backgroundColor: 'green',
+        border: 'none',
         font: 'inherit',
-        border: '1px solid green',
         padding: '8px',
-        color: 'green'
+        color: 'white',
+        marginRight: '20px'
+      },
+      btnOneB: {
+        backgroundColor: 'green',
+        border: 'none',
+        font: 'inherit',
+        padding: '8px',
+        color: 'white',
+        marginLeft: '20px'
       },
       btnTwo: {
         marginTop: '5vh',
@@ -107,6 +116,8 @@ class App extends Component {
             input={this.nameChange}><p>{this.state.person.stat}</p></Person>
         </div> 
       );
+
+      styles.btnOneA.backgroundColor = 'red';
     } 
 
     if (this.state.showNames) {
@@ -123,17 +134,19 @@ class App extends Component {
           })}
         </div>
       )
+
+      styles.btnOneB.backgroundColor = 'red';
     }
 
     return (
       <div className="App">
         <button 
           className="toggle-btn1"
-          style={styles.btnOne}
+          style={styles.btnOneA}
           onClick={this.togglePersonHandler}>Show Devs</button>
         <button 
           className="toggle-btn2"
-          style={styles.btnOne}
+          style={styles.btnOneB}
           onClick={this.viewAllNames}>List Names</button>
         {peopleBlock}
         {namesList}
