@@ -5,11 +5,11 @@ import Person from './Person/Person';
 class App extends Component {
   counter = 0;
   allPeople = [
-    {name: 'Sam', age: 28, stat: 'I do not mind tiramisu!'},
-    {name: 'Ryan', age: 24, stat: 'I hates tiramisu!'},
-    {name: 'Jordan', age: 24, stat: 'I hates tiramisu!'},
-    {name: 'Robert', age: 28, stat: 'I hates tiramisu!'},
-    {name: 'Quang', age: 26, stat: 'I hates tiramisu!'},
+    {id: 1, name: 'Sam', age: 28, stat: 'I do not mind tiramisu!'},
+    {id: 2, name: 'Ryan', age: 24, stat: 'I hates tiramisu!'},
+    {id: 3, name: 'Jordan', age: 24, stat: 'I hates tiramisu!'},
+    {id: 4, name: 'Robert', age: 28, stat: 'I hates tiramisu!'},
+    {id: 5, name: 'Quang', age: 26, stat: 'I hates tiramisu!'},
   ];
   state = {
     person: this.allPeople[this.counter],
@@ -18,38 +18,46 @@ class App extends Component {
     showNames: false
   };
 
-  removeName = (name) => {
-    const person = this.allPeople[this.counter];
-    person.name = name;
+  updateNames = () => {
     const allNames = this.allPeople.reduce((all, person) => {
-      all.push(person.name);
+      all.push({id: person.id, name: person.name});
       return all;
     }, []);
-    this.setState({person: person, names: allNames});
+    this.setState({names: allNames});
+  }
+
+  removeName = (name) => {
+    const person = {person: this.allPeople[this.counter]};
+    person.name = name;
+    this.updateNames();
+    this.setState(person);
+  }
+
+  firePerson = (i) => {
+    if (this.allPeople.length === 1) return alert('You cannot fire everyone!');
+    this.allPeople.splice(i, 1);
+    this.updateNames();
+    this.setState({person: this.allPeople[this.counter]});
+    this.counter = 0;
   }
 
   switchPerson = () => {
     this.counter ++;
-    this.counter = (this.counter > 4) ? 0 : this.counter;
-    const newPerson = {
-      person: this.allPeople[this.counter]
-    }
+    this.counter = this.counter === this.allPeople.length ? 0 : this.counter;
+    const newPerson = {person: this.allPeople[this.counter]}
     this.setState(newPerson);
   }
 
   nameChange = (event) => {
-    const person = this.allPeople[this.counter];
+    const person = {person: this.allPeople[this.counter]};
     person.name = event.target.value;
-    const allNames = this.allPeople.reduce((all, person) => {
-      all.push(person.name);
-      return all;
-    }, []);
-    this.setState({person: person, names: allNames});
+    this.updateNames();
+    this.setState(person);
   }
 
   togglePersonHandler = () => {
     const doesShow = !this.state.showPeople;
-    const msg = (doesShow) ? 'Hide People' : 'Show People';
+    const msg = (doesShow) ? 'Hide Devs' : 'Show Devs';
     const toggleBtn = document.getElementsByClassName('toggle-btn1')[0];
     toggleBtn.textContent = msg;
     this.setState({showPeople: doesShow});
@@ -60,11 +68,8 @@ class App extends Component {
     const msg = (doesShow) ? 'Hide Names' : 'Show Names';
     const toggleBtn = document.getElementsByClassName('toggle-btn2')[0];
     toggleBtn.textContent = msg; 
-    const allNames = this.allPeople.reduce((all, person) => {
-      all.push(person.name);
-      return all;
-    }, []);
-    this.setState({names: allNames, showNames: doesShow})
+    this.updateNames();
+    this.setState({showNames: doesShow})
   }
 
   render() {
@@ -77,7 +82,7 @@ class App extends Component {
         color: 'green'
       },
       btnTwo: {
-        marginTop: '20vh',
+        marginTop: '5vh',
         backgroundColor: 'white',
         font: 'inherit',
         border: '1px solid red',
@@ -94,7 +99,7 @@ class App extends Component {
         <div>
           <button 
             style={styles.btnTwo}
-            onClick={this.removeName.bind(this, 'Blank')}>Remove This Person</button>
+            onClick={this.removeName.bind(this, 'a random noob')}>Replace Employee</button>
           <Person 
             name={this.state.person.name} 
             age={this.state.person.age}
@@ -107,9 +112,14 @@ class App extends Component {
     if (this.state.showNames) {
       namesList = (
         <div className="names-list">
-          <h2>All people currently:</h2>
-          {this.state.names.map(name => {
-            return <li>{name}</li>
+          <h2>Developers on Payroll:</h2>
+          {this.state.names.map((person, index) => {
+            return (
+              <div key={person.id}>
+                <li>{person.name}</li>
+                <button onClick={() => this.firePerson(index)}>Fire</button>
+              </div>
+            )
           })}
         </div>
       )
@@ -120,7 +130,7 @@ class App extends Component {
         <button 
           className="toggle-btn1"
           style={styles.btnOne}
-          onClick={this.togglePersonHandler}>Show People</button>
+          onClick={this.togglePersonHandler}>Show Devs</button>
         <button 
           className="toggle-btn2"
           style={styles.btnOne}
