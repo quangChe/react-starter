@@ -94,14 +94,17 @@ class App extends Component {
         marginTop: '5vh',
         backgroundColor: 'white',
         font: 'inherit',
-        border: '1px solid red',
+        border: 'none',
         padding: '8px',
-        color: 'red'
+        color: 'red',
+        textDecoration: 'underline'
       }
     };
 
     let peopleBlock;
     let namesList;
+    let preventButton = '';
+    let preventNotice = 'default';
     
     if (this.state.showPeople) {
       peopleBlock = (
@@ -121,6 +124,12 @@ class App extends Component {
     } 
 
     if (this.state.showNames) {
+
+      if(this.allPeople.length <= 1) {
+        preventButton = 'firing-prevent';
+        preventNotice = 'firing-notice';
+      }
+      
       namesList = (
         <div className="names-list">
           <h2>Developers on Payroll:</h2>
@@ -128,7 +137,10 @@ class App extends Component {
             return (
               <div key={person.id}>
                 <li>{person.name}</li>
-                <button onClick={() => this.firePerson(index)}>Fire</button>
+                <button 
+                  className={preventButton}
+                  onClick={() => this.firePerson(index)}>Fire</button>
+                <p className={preventNotice}>You can't fire your last employee!</p>
               </div>
             )
           })}
@@ -137,6 +149,7 @@ class App extends Component {
 
       styles.btnOneB.backgroundColor = 'red';
     }
+
 
     return (
       <div className="App">

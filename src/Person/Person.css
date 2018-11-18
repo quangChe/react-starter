@@ -21,3 +21,9 @@ p:nth-of-type(2) {
 .button {
   margin-top: 20px;
 }
+
+.on-warning {
+  color: red;
+  font-weight: bold;
+  text-decoration: underline;
+}

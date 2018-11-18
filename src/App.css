@@ -19,3 +19,16 @@ h1 {
 button:hover {
   cursor: pointer;
 }
+
+.firing-prevent {
+  display: none;
+}
+
+.default {
+  display: none;
+}
+
+.firing-notice {
+  display: block;
+  color: red;
+}
