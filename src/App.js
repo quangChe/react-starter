@@ -19,38 +19,46 @@ class App extends Component {
     showNames: false
   };
 
+  updateNames = () => {
+    const allNames = this.allPeople.reduce((all, person) => {
+      all.push({id: person.id, name: person.name});
+      return all;
+    }, []);
+    this.setState({names: allNames});
+  }
+
   removeName = (name) => {
     const person = this.allPeople[this.counter];
     person.name = name;
-    const allNames = this.allPeople.reduce((all, person) => {
-      all.push(person.name);
-      return all;
-    }, []);
-    this.setState({person: person, names: allNames});
+    this.updateNames();
+    this.setState({person: person});
+  }
+
+  firePerson = (i) => {
+    if (this.allPeople.length === 1) return alert('You cannot fire everyone!');
+    this.allPeople.splice(i, 1);
+    this.updateNames();
+    this.setState({person: this.allPeople[this.counter]});
+    this.counter = 0;
   }
 
   switchPerson = () => {
     this.counter ++;
-    this.counter = (this.counter > 4) ? 0 : this.counter;
-    const newPerson = {
-      person: this.allPeople[this.counter]
-    }
+    this.counter = this.counter === this.allPeople.length ? 0 : this.counter;
+    const newPerson = {person: this.allPeople[this.counter]}
     this.setState(newPerson);
   }
 
   nameChange = (event) => {
     const person = this.allPeople[this.counter];
     person.name = event.target.value;
-    const allNames = this.allPeople.reduce((all, person) => {
-      all.push(person.name);
-      return all;
-    }, []);
-    this.setState({person: person, names: allNames});
+    this.updateNames();
+    this.setState({person: person});
   }
 
   togglePersonHandler = () => {
     const doesShow = !this.state.showPeople;
-    const msg = (doesShow) ? 'Hide People' : 'Show People';
+    const msg = (doesShow) ? 'Hide Devs' : 'Show Devs';
     const toggleBtn = document.getElementsByClassName('toggle-btn1')[0];
     toggleBtn.textContent = msg;
     this.setState({showPeople: doesShow});
@@ -61,46 +69,59 @@ class App extends Component {
     const msg = (doesShow) ? 'Hide Names' : 'Show Names';
     const toggleBtn = document.getElementsByClassName('toggle-btn2')[0];
     toggleBtn.textContent = msg; 
-    const allNames = this.allPeople.reduce((all, person) => {
-      all.push(person.name);
-      return all;
-    }, []);
-    this.setState({names: allNames, showNames: doesShow})
+    this.updateNames();
+    this.setState({showNames: doesShow})
   }
 
   render() {
     const styles = {
-      btnOne: {
-        backgroundColor: 'white',
+      btnOneA: {
+        backgroundColor: 'green',
+        border: 'none',
         font: 'inherit',
-        border: '1px solid green',
         padding: '8px',
+<<<<<<< HEAD
         margin: '0 10px',
         color: 'green',
         ':hover': {
           color: 'white',
           backgroundColor: 'green'
         }
+=======
+        color: 'white',
+        marginRight: '20px'
+      },
+      btnOneB: {
+        backgroundColor: 'green',
+        border: 'none',
+        font: 'inherit',
+        padding: '8px',
+        color: 'white',
+        marginLeft: '20px'
+>>>>>>> development
       },
       btnTwo: {
-        marginTop: '20vh',
+        marginTop: '5vh',
         backgroundColor: 'white',
         font: 'inherit',
-        border: '1px solid red',
+        border: 'none',
         padding: '8px',
-        color: 'red'
+        color: 'red',
+        textDecoration: 'underline'
       }
     };
 
     let peopleBlock;
     let namesList;
+    let preventButton = '';
+    let preventNotice = 'default';
     
     if (this.state.showPeople) {
       peopleBlock = (
         <div>
           <button 
             style={styles.btnTwo}
-            onClick={this.removeName.bind(this, 'Blank')}>Remove This Person</button>
+            onClick={this.removeName.bind(this, 'a random noob')}>Replace Employee</button>
           <Person 
             name={this.state.person.name} 
             age={this.state.person.age}
@@ -109,26 +130,48 @@ class App extends Component {
         </div>         
       );
 
+<<<<<<< HEAD
       styles.btnOne.color = 'red';
       styles.btnOne.border = '1px solid red';
       styles.btnOne[':hover'] = {
         color: 'white',
         backgroundColor: 'red'
       };
+=======
+      styles.btnOneA.backgroundColor = 'red';
+>>>>>>> development
     } 
 
     if (this.state.showNames) {
+
+      if(this.allPeople.length <= 1) {
+        preventButton = 'firing-prevent';
+        preventNotice = 'firing-notice';
+      }
+      
       namesList = (
         <div className="names-list">
-          <h2>All people currently:</h2>
-          {this.state.names.map(name => {
-            return <li>{name}</li>
+          <h2>Developers on Payroll:</h2>
+          {this.state.names.map((person, index) => {
+            return (
+              <div key={person.id}>
+                <li>{person.name}</li>
+                <button 
+                  className={preventButton}
+                  onClick={() => this.firePerson(index)}>Fire</button>
+                <p className={preventNotice}>You can't fire your last employee!</p>
+              </div>
+            )
           })}
         </div>
       )
+
+      styles.btnOneB.backgroundColor = 'red';
     }
 
+
     return (
+<<<<<<< HEAD
       <StyleRoot>
         <div className="App">
           <button 
@@ -145,6 +188,20 @@ class App extends Component {
           {namesList}
         </div>
       </StyleRoot>
+=======
+      <div className="App">
+        <button 
+          className="toggle-btn1"
+          style={styles.btnOneA}
+          onClick={this.togglePersonHandler}>Show Devs</button>
+        <button 
+          className="toggle-btn2"
+          style={styles.btnOneB}
+          onClick={this.viewAllNames}>List Names</button>
+        {peopleBlock}
+        {namesList}
+      </div>
+>>>>>>> development
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
   }
