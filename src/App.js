@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
 
 class App extends Component {
   counter = 0;
   allPeople = [
-    {name: 'Sam', age: 28, stat: 'I do not mind tiramisu!'},
-    {name: 'Ryan', age: 24, stat: 'I hates tiramisu!'},
-    {name: 'Jordan', age: 24, stat: 'I hates tiramisu!'},
-    {name: 'Robert', age: 28, stat: 'I hates tiramisu!'},
-    {name: 'Quang', age: 26, stat: 'I hates tiramisu!'},
+    {id: 1, name: 'Sam', age: 28, stat: 'I do not mind tiramisu!'},
+    {id: 2, name: 'Ryan', age: 24, stat: 'I hates tiramisu!'},
+    {id: 3, name: 'Jordan', age: 24, stat: 'I hates tiramisu!'},
+    {id: 4, name: 'Robert', age: 28, stat: 'I hates tiramisu!'},
+    {id: 5, name: 'Quang', age: 26, stat: 'I hates tiramisu!'},
   ];
   state = {
     person: this.allPeople[this.counter],
@@ -74,7 +75,12 @@ class App extends Component {
         font: 'inherit',
         border: '1px solid green',
         padding: '8px',
-        color: 'green'
+        margin: '0 10px',
+        color: 'green',
+        ':hover': {
+          color: 'white',
+          backgroundColor: 'green'
+        }
       },
       btnTwo: {
         marginTop: '20vh',
@@ -100,8 +106,15 @@ class App extends Component {
             age={this.state.person.age}
             click={this.switchPerson}
             input={this.nameChange}><p>{this.state.person.stat}</p></Person>
-        </div> 
+        </div>         
       );
+
+      styles.btnOne.color = 'red';
+      styles.btnOne.border = '1px solid red';
+      styles.btnOne[':hover'] = {
+        color: 'white',
+        backgroundColor: 'red'
+      };
     } 
 
     if (this.state.showNames) {
@@ -116,21 +129,25 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        <button 
-          className="toggle-btn1"
-          style={styles.btnOne}
-          onClick={this.togglePersonHandler}>Show People</button>
-        <button 
-          className="toggle-btn2"
-          style={styles.btnOne}
-          onClick={this.viewAllNames}>List Names</button>
-        {peopleBlock}
-        {namesList}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <button 
+            className="toggle-btn1"
+            style={styles.btnOne}
+            onClick={this.togglePersonHandler}
+            key={this.allPeople[0].id}>Show People</button>
+          <button 
+            className="toggle-btn2"
+            style={styles.btnOne}
+            onClick={this.viewAllNames}
+            key={this.allPeople[1].id}>List Names</button>
+          {peopleBlock}
+          {namesList}
+        </div>
+      </StyleRoot>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
   }
 }
 
-export default App;
+export default Radium(App);
