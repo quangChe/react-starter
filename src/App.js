@@ -80,25 +80,12 @@ class App extends Component {
         border: 'none',
         font: 'inherit',
         padding: '8px',
-<<<<<<< HEAD
         margin: '0 10px',
         color: 'green',
         ':hover': {
           color: 'white',
           backgroundColor: 'green'
         }
-=======
-        color: 'white',
-        marginRight: '20px'
-      },
-      btnOneB: {
-        backgroundColor: 'green',
-        border: 'none',
-        font: 'inherit',
-        padding: '8px',
-        color: 'white',
-        marginLeft: '20px'
->>>>>>> development
       },
       btnTwo: {
         marginTop: '5vh',
@@ -130,16 +117,12 @@ class App extends Component {
         </div>         
       );
 
-<<<<<<< HEAD
       styles.btnOne.color = 'red';
       styles.btnOne.border = '1px solid red';
       styles.btnOne[':hover'] = {
         color: 'white',
         backgroundColor: 'red'
       };
-=======
-      styles.btnOneA.backgroundColor = 'red';
->>>>>>> development
     } 
 
     if (this.state.showNames) {
@@ -171,7 +154,6 @@ class App extends Component {
 
 
     return (
-<<<<<<< HEAD
       <StyleRoot>
         <div className="App">
           <button 
@@ -188,20 +170,6 @@ class App extends Component {
           {namesList}
         </div>
       </StyleRoot>
-=======
-      <div className="App">
-        <button 
-          className="toggle-btn1"
-          style={styles.btnOneA}
-          onClick={this.togglePersonHandler}>Show Devs</button>
-        <button 
-          className="toggle-btn2"
-          style={styles.btnOneB}
-          onClick={this.viewAllNames}>List Names</button>
-        {peopleBlock}
-        {namesList}
-      </div>
->>>>>>> development
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
   }
