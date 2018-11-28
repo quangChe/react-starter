@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Radium, { StyleRoot } from 'radium';
+// import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -75,17 +75,17 @@ class App extends Component {
 
   render() {
     const styles = {
-      btnOneA: {
-        backgroundColor: 'green',
-        border: 'none',
+      btnOne: {
+        backgroundColor: 'white',
+        border: '1px solid green',
         font: 'inherit',
         padding: '8px',
         margin: '0 10px',
-        color: 'green',
-        ':hover': {
-          color: 'white',
-          backgroundColor: 'green'
-        }
+        color: 'green'
+        // ':hover': {
+        //   color: 'white',
+        //   backgroundColor: 'green'
+        // }
       },
       btnTwo: {
         marginTop: '5vh',
@@ -119,10 +119,10 @@ class App extends Component {
 
       styles.btnOne.color = 'red';
       styles.btnOne.border = '1px solid red';
-      styles.btnOne[':hover'] = {
-        color: 'white',
-        backgroundColor: 'red'
-      };
+      // styles.btnOne[':hover'] = {
+      //   color: 'white',
+      //   backgroundColor: 'red'
+      // };
     } 
 
     if (this.state.showNames) {
@@ -149,12 +149,12 @@ class App extends Component {
         </div>
       )
 
-      styles.btnOneB.backgroundColor = 'red';
+      styles.btnOne.backgroundColor = 'red';
     }
 
 
     return (
-      <StyleRoot>
+      // <StyleRoot>
         <div className="App">
           <button 
             className="toggle-btn1"
@@ -169,10 +169,11 @@ class App extends Component {
           {peopleBlock}
           {namesList}
         </div>
-      </StyleRoot>
+      // </StyleRoot>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
   }
 }
 
-export default Radium(App);
+export default App;
+// export default Radium(App);
