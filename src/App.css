@@ -32,3 +32,32 @@ button:hover {
   display: block;
   color: red;
 }
+
+.toggle-btn1,
+.toggle-btn2 {
+  cursor: pointer;
+}
+
+.btn-one {
+  background-color: white;
+  border: 1px solid green;
+  font: inherit;
+  padding: 8px;
+  margin: 0 10px;
+  color: green;
+} 
+
+.btn-one:hover {
+  color: white;
+  background-color: green;
+}
+
+.btn-two {
+  margin-top: 5vh;
+  background-color: white;
+  font: inherit;
+  border: none;
+  padding: 8px;
+  color: red;
+  text-decoration: underline;
+}

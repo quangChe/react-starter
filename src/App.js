@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 // import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
 
@@ -59,7 +59,8 @@ class App extends Component {
   togglePersonHandler = () => {
     const doesShow = !this.state.showPeople;
     const msg = (doesShow) ? 'Hide Devs' : 'Show Devs';
-    const toggleBtn = document.getElementsByClassName('toggle-btn1')[0];
+    const c = classes['toggle-btn1'];
+    const toggleBtn = document.getElementsByClassName(c);
     toggleBtn.textContent = msg;
     this.setState({showPeople: doesShow});
   }
@@ -67,47 +68,24 @@ class App extends Component {
   viewAllNames = () => {
     const doesShow = !this.state.showNames;
     const msg = (doesShow) ? 'Hide Names' : 'Show Names';
-    const toggleBtn = document.getElementsByClassName('toggle-btn2')[0];
+    const c = classes['toggle-btn2'];
+    const toggleBtn = document.getElementsByClassName(c);
     toggleBtn.textContent = msg; 
     this.updateNames();
     this.setState({showNames: doesShow})
   }
 
   render() {
-    const styles = {
-      btnOne: {
-        backgroundColor: 'white',
-        border: '1px solid green',
-        font: 'inherit',
-        padding: '8px',
-        margin: '0 10px',
-        color: 'green'
-        // ':hover': {
-        //   color: 'white',
-        //   backgroundColor: 'green'
-        // }
-      },
-      btnTwo: {
-        marginTop: '5vh',
-        backgroundColor: 'white',
-        font: 'inherit',
-        border: 'none',
-        padding: '8px',
-        color: 'red',
-        textDecoration: 'underline'
-      }
-    };
-
     let peopleBlock;
     let namesList;
     let preventButton = '';
-    let preventNotice = 'default';
+    let preventNotice = classes['default'];
     
     if (this.state.showPeople) {
       peopleBlock = (
         <div>
           <button 
-            style={styles.btnTwo}
+            className={classes['btn-two']}
             onClick={this.removeName.bind(this, 'a random noob')}>Replace Employee</button>
           <Person 
             name={this.state.person.name} 
@@ -117,8 +95,8 @@ class App extends Component {
         </div>         
       );
 
-      styles.btnOne.color = 'red';
-      styles.btnOne.border = '1px solid red';
+      // styles.btnOne.color = 'red';
+      // styles.btnOne.border = '1px solid red';
       // styles.btnOne[':hover'] = {
       //   color: 'white',
       //   backgroundColor: 'red'
@@ -128,13 +106,14 @@ class App extends Component {
     if (this.state.showNames) {
 
       if(this.allPeople.length <= 1) {
-        preventButton = 'firing-prevent';
-        preventNotice = 'firing-notice';
+        preventButton = classes['firing-prevent'];
+        preventNotice = classes['firing-notice'];
       }
       
       namesList = (
         <div className="names-list">
           <h2>Developers on Payroll:</h2>
+          <p className={preventNotice}>You can't fire your last employee!</p>
           {this.state.names.map((person, index) => {
             return (
               <div key={person.id}>
@@ -142,30 +121,25 @@ class App extends Component {
                 <button 
                   className={preventButton}
                   onClick={() => this.firePerson(index)}>Fire</button>
-                <p className={preventNotice}>You can't fire your last employee!</p>
               </div>
             )
           })}
         </div>
       )
 
-      styles.btnOne.backgroundColor = 'red';
+      // styles.btnOne.backgroundColor = 'red';
     }
 
 
     return (
       // <StyleRoot>
-        <div className="App">
+        <div className={classes.App}>
           <button 
-            className="toggle-btn1"
-            style={styles.btnOne}
-            onClick={this.togglePersonHandler}
-            key={this.allPeople[0].id}>Show People</button>
+            className={classes['btn-one'] + ' ' + classes['toggle-btn1']}
+            onClick={this.togglePersonHandler}>Show People</button>
           <button 
-            className="toggle-btn2"
-            style={styles.btnOne}
-            onClick={this.viewAllNames}
-            key={this.allPeople[1].id}>List Names</button>
+            className={classes['btn-one'] + ' ' + classes['toggle-btn2']}
+            onClick={this.viewAllNames}>List Names</button>
           {peopleBlock}
           {namesList}
         </div>
