@@ -1,153 +1,92 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-// import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
-  counter = 0;
-  allPeople = [
-    {id: 1, name: 'Sam', age: 28, stat: 'I do not mind tiramisu!'},
-    {id: 2, name: 'Ryan', age: 24, stat: 'I hates tiramisu!'},
-    {id: 3, name: 'Jordan', age: 24, stat: 'I hates tiramisu!'},
-    {id: 4, name: 'Robert', age: 28, stat: 'I hates tiramisu!'},
-    {id: 5, name: 'Quang', age: 26, stat: 'I hates tiramisu!'},
-  ];
   state = {
-    person: this.allPeople[this.counter],
-    showPeople: false,
-    names: [],
-    showNames: false
-  };
-
-  updateNames = () => {
-    const allNames = this.allPeople.reduce((all, person) => {
-      all.push({id: person.id, name: person.name});
-      return all;
-    }, []);
-    this.setState({names: allNames});
+    persons: [
+      { id: 'asfa1', name: 'Max', age: 28 },
+      { id: 'vasdf1', name: 'Manu', age: 29 },
+      { id: 'asdf11', name: 'Stephanie', age: 26 }
+    ],
+    otherState: 'some other value',
+    showPersons: false
   }
 
-  removeName = (name) => {
-    const person = this.allPeople[this.counter];
-    person.name = name;
-    this.updateNames();
-    this.setState({person: person});
-  }
+  nameChangedHandler = ( event, id ) => {
+    const personIndex = this.state.persons.findIndex( p => {
+      return p.id === id;
+    } );
 
-  firePerson = (i) => {
-    if (this.allPeople.length === 1) return alert('You cannot fire everyone!');
-    this.allPeople.splice(i, 1);
-    this.updateNames();
-    this.setState({person: this.allPeople[this.counter]});
-    this.counter = 0;
-  }
+    const person = {
+      ...this.state.persons[personIndex]
+    };
 
-  switchPerson = () => {
-    this.counter ++;
-    this.counter = this.counter === this.allPeople.length ? 0 : this.counter;
-    const newPerson = {person: this.allPeople[this.counter]}
-    this.setState(newPerson);
-  }
+    // const person = Object.assign({}, this.state.persons[personIndex]);
 
-  nameChange = (event) => {
-    const person = this.allPeople[this.counter];
     person.name = event.target.value;
-    this.updateNames();
-    this.setState({person: person});
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState( { persons: persons } );
   }
 
-  togglePersonHandler = () => {
-    const doesShow = !this.state.showPeople;
-    const msg = (doesShow) ? 'Hide Devs' : 'Show Devs';
-    const c = classes['toggle-btn1'];
-    const toggleBtn = document.getElementsByClassName(c);
-    toggleBtn.textContent = msg;
-    this.setState({showPeople: doesShow});
+  deletePersonHandler = ( personIndex ) => {
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice( personIndex, 1 );
+    this.setState( { persons: persons } );
   }
 
-  viewAllNames = () => {
-    const doesShow = !this.state.showNames;
-    const msg = (doesShow) ? 'Hide Names' : 'Show Names';
-    const c = classes['toggle-btn2'];
-    const toggleBtn = document.getElementsByClassName(c);
-    toggleBtn.textContent = msg; 
-    this.updateNames();
-    this.setState({showNames: doesShow})
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState( { showPersons: !doesShow } );
   }
 
-  render() {
-    let peopleBlock;
-    let namesList;
-    let preventButton = '';
-    let preventNotice = classes['default'];
-    
-    if (this.state.showPeople) {
-      peopleBlock = (
+  render () {
+    let persons = null;
+    let btnClass = '';
+
+    if ( this.state.showPersons ) {
+      persons = (
         <div>
-          <button 
-            className={classes['btn-two']}
-            onClick={this.removeName.bind(this, 'a random noob')}>Replace Employee</button>
-          <Person 
-            name={this.state.person.name} 
-            age={this.state.person.age}
-            click={this.switchPerson}
-            input={this.nameChange}><p>{this.state.person.stat}</p></Person>
-        </div>         
+          {this.state.persons.map( ( person, index ) => {
+            return <ErrorBoundary key={person.id}>
+              <Person
+                click={() => this.deletePersonHandler( index )}
+                name={person.name}
+                age={person.age}
+                changed={( event ) => this.nameChangedHandler( event, person.id )} />
+            </ ErrorBoundary>
+          } )}
+        </div>
       );
 
-      // styles.btnOne.color = 'red';
-      // styles.btnOne.border = '1px solid red';
-      // styles.btnOne[':hover'] = {
-      //   color: 'white',
-      //   backgroundColor: 'red'
-      // };
-    } 
-
-    if (this.state.showNames) {
-
-      if(this.allPeople.length <= 1) {
-        preventButton = classes['firing-prevent'];
-        preventNotice = classes['firing-notice'];
-      }
-      
-      namesList = (
-        <div className="names-list">
-          <h2>Developers on Payroll:</h2>
-          <p className={preventNotice}>You can't fire your last employee!</p>
-          {this.state.names.map((person, index) => {
-            return (
-              <div key={person.id}>
-                <li>{person.name}</li>
-                <button 
-                  className={preventButton}
-                  onClick={() => this.firePerson(index)}>Fire</button>
-              </div>
-            )
-          })}
-        </div>
-      )
-
-      // styles.btnOne.backgroundColor = 'red';
+      btnClass = classes.Red;
     }
 
+    const assignedClasses = [];
+    if ( this.state.persons.length <= 2 ) {
+      assignedClasses.push( classes.red ); // classes = ['red']
+    }
+    if ( this.state.persons.length <= 1 ) {
+      assignedClasses.push( classes.bold ); // classes = ['red', 'bold']
+    }
 
     return (
-      // <StyleRoot>
-        <div className={classes.App}>
-          <button 
-            className={classes['btn-one'] + ' ' + classes['toggle-btn1']}
-            onClick={this.togglePersonHandler}>Show People</button>
-          <button 
-            className={classes['btn-one'] + ' ' + classes['toggle-btn2']}
-            onClick={this.viewAllNames}>List Names</button>
-          {peopleBlock}
-          {namesList}
-        </div>
-      // </StyleRoot>
+      <div className={classes.App}>
+        <h1>Hi, I'm a React App</h1>
+        <p className={assignedClasses.join( ' ' )}>This is really working!</p>
+        <button
+          className={btnClass}
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
+      </div>
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello Quang!!'));
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
 export default App;
-// export default Radium(App);

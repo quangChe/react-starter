@@ -1,36 +1,14 @@
 .Person {
-  font-size: 30px;
-  margin: 15px auto 30px auto;
-  color: rgb(81, 174, 211);
+    width: 60%;
+    margin: 16px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 16px;
+    text-align: center;
 }
 
-@media (max-width: 300px) {
-  .Person {
-    font-size: 14px;
-  }
-}
-
-p:nth-of-type(1) {
-  margin: 40px auto 10px auto;
-}
-
-p:nth-of-type(2) {
-  margin: 0 auto 40px auto;
-}
-
-.input {
-  display: block;
-  margin: 0 auto;
-  width: 50%;
-  font-size: 16px;
-}
-
-.button {
-  margin-top: 20px;
-}
-
-.on-warning {
-  color: red;
-  font-weight: bold;
-  text-decoration: underline;
+@media (min-width: 500px) {
+    .Person {
+        width: 450px;
+    }
 }
