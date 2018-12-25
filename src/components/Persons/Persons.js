@@ -3,7 +3,26 @@ import React, { Component } from 'react';
 import Person from './Person/Person';
 
 class Persons extends Component {
-   render = () => {
+  constructor(props) {
+    super(props);
+    console.log('Persons.js -- constructor()');
+  }
+
+  componentWillMount() {
+    console.log('Persons.js -- componentWillMount()');
+  }
+
+  componentDidMount() {
+    console.log('Persons.js -- componentDidMount()');
+  }
+
+  componentWillUnmount() {
+    console.log('Persons.js -- componentWillUnmount()');
+  }
+
+
+  render = () => {
+    console.log('Persons.js -- render()')
     return this.props.persons.map((person, index) => 
         <Person
         key={person.id}
