@@ -20,6 +20,22 @@ class Persons extends Component {
     console.log('Persons.js -- componentWillUnmount()');
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('Persons.js -- componentWillReceiveProps()', nextProps);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('Persons.js -- shouldComponentUpdate()', nextProps, nextState, this.props.persons);
+    return nextProps !== this.props.persons;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('Persons.js -- componentWillUpdate()', nextProps, nextState, this.props.persons);
+  }
+
+  componentDidUpdate() {
+    console.log('Persons.js -- componentDidUpdate()');
+  }
 
   render = () => {
     console.log('Persons.js -- render()')
