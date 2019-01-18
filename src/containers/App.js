@@ -88,7 +88,7 @@ class App extends PureComponent {
     }
 
     return (
-      <WithClass classes={classes.App}>
+      <>
         <button onClick={() => this.setState({showPersons: true})}>Show Persons</button>
         <Cockpit
           containerInput={this.props.testing}
@@ -97,10 +97,10 @@ class App extends PureComponent {
           showPersons={this.state.showPersons}
         />
         {persons}
-      </WithClass>
+      </>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default App;
+export default WithClass(App, classes.App);
