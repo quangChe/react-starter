@@ -102,6 +102,7 @@ class App extends PureComponent {
 
     return (
       <>
+        <iris-test/>
         <button onClick={() => this.setState({showPersons: true})}>Show Persons</button>
         <Cockpit
           containerInput={this.props.testing}
